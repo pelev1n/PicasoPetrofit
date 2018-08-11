@@ -1,5 +1,6 @@
 package com.example.user.picasopetrofit;
 
+import com.example.user.picasopetrofit.bd.Movie;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

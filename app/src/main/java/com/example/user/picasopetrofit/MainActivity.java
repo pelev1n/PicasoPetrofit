@@ -5,13 +5,15 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.user.picasopetrofit.bd.DaoSession;
+import com.example.user.picasopetrofit.bd.Movie;
+import com.example.user.picasopetrofit.bd.MovieDao;
+
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     MovieAdapter movieAdapter;
     RetrofitApi retrofitApi;
+    DaoSession mDaoSession;
+    MovieDao movieDao;
 
 
     @Override
@@ -31,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         movieAdapter = new MovieAdapter(this);
         recyclerView.setAdapter(movieAdapter);
+        mDaoSession = ((App) getApplication()).getDaoSession();
+        movieDao = mDaoSession.getMovieDao();
+
+        movieDao.deleteAll();
 
 
         getMovie();
@@ -73,7 +81,11 @@ public class MainActivity extends AppCompatActivity {
       call.enqueue(new Callback<ResponseModel>() {
           @Override
           public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-              movieAdapter.setMovieList(response.body().getResults());
+              movieDao.insertOrReplaceInTx(response.body().getResults());
+              /*movieAdapter.setMovieList(response.body().getResults());*/
+              List<Movie> moviesDao = movieDao.loadAll();
+              List<Movie> moviesApi = response.body().getResults();
+              movieAdapter.setMovieList(moviesApi);
           }
 
           @Override
