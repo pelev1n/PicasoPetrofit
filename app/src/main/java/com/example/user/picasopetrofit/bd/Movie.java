@@ -1,12 +1,16 @@
-package com.example.user.picasopetrofit;
+package com.example.user.picasopetrofit.bd;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import org.greenrobot.greendao.annotation.Entity;
 
+import java.util.List;
+import org.greenrobot.greendao.annotation.Generated;
+
+@Entity
 public class Movie implements Parcelable {
 
     private String title;
@@ -24,6 +28,14 @@ public class Movie implements Parcelable {
         poster = in.readString();
         description = in.readString();
         backdrop = in.readString();
+    }
+
+    @Generated(hash = 1238002848)
+    public Movie(String title, String poster, String description, String backdrop) {
+        this.title = title;
+        this.poster = poster;
+        this.description = description;
+        this.backdrop = backdrop;
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -47,7 +59,7 @@ public class Movie implements Parcelable {
     }
 
     public String getPoster() {
-        return "http://image.tmdb.org/t/p/w500" + poster;
+        return /*"http://image.tmdb.org/t/p/w500" +*/ poster;
     }
 
     public void setPoster(String poster) {
@@ -63,7 +75,7 @@ public class Movie implements Parcelable {
     }
 
     public String getBackdrop() {
-        return "http://image.tmdb.org/t/p/w500"  + backdrop;
+        return /*"http://image.tmdb.org/t/p/w500"  + */ backdrop;
     }
 
     public void setBackdrop(String backdrop) {

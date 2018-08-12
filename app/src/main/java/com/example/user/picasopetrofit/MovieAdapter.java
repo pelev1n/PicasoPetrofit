@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.user.picasopetrofit.bd.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class MovieAdapter    extends RecyclerView.Adapter<MovieViewHolder> {
             });
             return viewHolder;
         }
-
+/*
         @Override
         public void onBindViewHolder(MovieViewHolder holder, int position) {
             Movie movie = mMovieList.get(position);
@@ -45,7 +46,15 @@ public class MovieAdapter    extends RecyclerView.Adapter<MovieViewHolder> {
                     .load(movie.getPoster())
                     .placeholder(R.color.colorAccent)
                     .into(holder.imageView);
-        }
+        }*/
+    @Override
+    public void onBindViewHolder(MovieViewHolder holder, int position) {
+        Movie movie = mMovieList.get(position);
+        Picasso.with(mContext)
+                .load("http://image.tmdb.org/t/p/w500" + movie.getPoster())
+                .placeholder(R.color.colorAccent)
+                .into(holder.imageView);
+    }
 
         @Override
         public int getItemCount() {
