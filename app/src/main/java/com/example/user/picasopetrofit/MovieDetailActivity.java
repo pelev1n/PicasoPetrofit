@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.user.picasopetrofit.bd.Movie;
+import com.example.user.picasopetrofit.manager.DataManager;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 public class MovieDetailActivity extends AppCompatActivity {
@@ -19,10 +21,12 @@ public class MovieDetailActivity extends AppCompatActivity {
         ImageView poster;
         TextView title;
         TextView description;
+        DataManager dataManager;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            dataManager = DataManager.getInstants();
             setContentView(R.layout.activity_movie_detail);
             if (getIntent().hasExtra(EXTRA_MOVIE)) {
                 mMovie = getIntent().getParcelableExtra(EXTRA_MOVIE);
@@ -42,11 +46,13 @@ public class MovieDetailActivity extends AppCompatActivity {
 
             title.setText(mMovie.getTitle());
             description.setText(mMovie.getDescription());
-            Picasso.with(this)
+            dataManager.getmPicaso().with(this)
                     .load("http://image.tmdb.org/t/p/w500" + mMovie.getPoster())
+                    .networkPolicy(NetworkPolicy.OFFLINE)
                     .into(poster);
-            Picasso.with(this)
-                    .load("http://imagorg/t/e.tmdb.p/w500" + mMovie.getBackdrop())
+            dataManager.getmPicaso().with(this)
+                    .load("http://image.tmdb.org/t/p/w500" + mMovie.getBackdrop())
+                    .networkPolicy(NetworkPolicy.OFFLINE)
                     .into(backdrop);
         }
     }

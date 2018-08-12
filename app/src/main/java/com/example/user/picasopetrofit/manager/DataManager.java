@@ -27,6 +27,7 @@ public class DataManager {
     public static DataManager getInstants() {
         if(instants == null) {
             instants = new DataManager();
+            return instants;
         }
         return instants;
     }

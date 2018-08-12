@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import com.example.user.picasopetrofit.bd.DaoSession;
 import com.example.user.picasopetrofit.bd.Movie;
 import com.example.user.picasopetrofit.bd.MovieDao;
+import com.example.user.picasopetrofit.manager.DataManager;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     RetrofitApi retrofitApi;
     DaoSession mDaoSession;
     MovieDao movieDao;
-
+    DataManager dataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +34,13 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView= findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        movieAdapter = new MovieAdapter(this);
+        movieAdapter = new MovieAdapter();
         recyclerView.setAdapter(movieAdapter);
-        mDaoSession = ((App) getApplication()).getDaoSession();
-        movieDao = mDaoSession.getMovieDao();
 
-        movieDao.deleteAll();
+        dataManager = DataManager.getInstants();
+        movieDao = dataManager.getDaoSession().getMovieDao();
+
+/*        movieDao.deleteAll();*/
         getMovie();
 
     }
@@ -46,42 +48,15 @@ public class MainActivity extends AppCompatActivity {
     public void setAdapter() {
         List<Movie> movies = movieDao.loadAll();
 
-        movieAdapter = new MovieAdapter(this);
+        movieAdapter = new MovieAdapter();
         movieAdapter.setMovieList(movies);
         recyclerView.setAdapter(movieAdapter);
     }
 
   private    void  getMovie(){
-//    RestAdapter restAdapter = new RestAdapter.Builder()
-//            .setEndpoint("http://api.themoviedb.org/3")
-//            .setRequestInterceptor(new RequestInterceptor() {
-//                @Override
-//                public void intercept(RequestFacade request) {
-//                    request.addEncodedQueryParam("api_key", "eb37bafc5fe27ad9ab86a74e72812c06");
-//                }
-//            })
-//            .setLogLevel(RestAdapter.LogLevel.FULL)
-//            .build();
 
-    MoviesApiService moviesApiService = retrofitApi.getClient().create(MoviesApiService.class);
+    MoviesApiService moviesApiService = dataManager.getRetrofitApi().create(MoviesApiService.class);
 
-    //интерфейс реализован с помощию класса Refrofit  с базовым URL b конвертором
-//      MoviesApiService service = restAdapter.create(MoviesApiService.class);
-
-      /*Call<List<Movie>> call = moviesApiService.getPopularMovies("eb37bafc5fe27ad9ab86a74e72812c06");
-
-      call.enqueue(new Callback<List<Movie>>() {
-          @Override
-          public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
-              System.out.println("HELLO");
-              movieAdapter.setMovieList(response.body());
-          }
-
-          @Override
-          public void onFailure(Call<List<Movie>> call, Throwable t) {
-
-          }
-      });*/
       Call<ResponseModel> call = moviesApiService.getPopularMovies("eb37bafc5fe27ad9ab86a74e72812c06");
 
       call.enqueue(new Callback<ResponseModel>() {
