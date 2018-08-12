@@ -43,10 +43,10 @@ public class MovieDetailActivity extends AppCompatActivity {
             title.setText(mMovie.getTitle());
             description.setText(mMovie.getDescription());
             Picasso.with(this)
-                    .load(mMovie.getPoster())
+                    .load("http://image.tmdb.org/t/p/w500" + mMovie.getPoster())
                     .into(poster);
             Picasso.with(this)
-                    .load(mMovie.getBackdrop())
+                    .load("http://image.tmdb.org/t/p/w500" + mMovie.getBackdrop())
                     .into(backdrop);
         }
     }

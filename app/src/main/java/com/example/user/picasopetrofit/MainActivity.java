@@ -39,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
         movieDao = mDaoSession.getMovieDao();
 
         movieDao.deleteAll();
-
-
         getMovie();
 
     }
