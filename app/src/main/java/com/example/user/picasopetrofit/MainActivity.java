@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
       call.enqueue(new Callback<ResponseModel>() {
           @Override
           public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+              List<Movie> movies = response.body().getResults();
               movieAdapter.setMovieList(response.body().getResults());
           }
 
