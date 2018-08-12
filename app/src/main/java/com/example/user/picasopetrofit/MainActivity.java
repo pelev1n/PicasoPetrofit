@@ -81,10 +81,12 @@ public class MainActivity extends AppCompatActivity {
       call.enqueue(new Callback<ResponseModel>() {
           @Override
           public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+
               movieDao.insertOrReplaceInTx(response.body().getResults());
               List<Movie> moviesDao = movieDao.loadAll();
-              List<Movie> moviesApi = response.body().getResults();
-              movieAdapter.setMovieList(moviesApi);
+
+              /*List<Movie> moviesApi = response.body().getResults();*/
+              movieAdapter.setMovieList(moviesDao);
           }
 
           @Override
@@ -92,24 +94,5 @@ public class MainActivity extends AppCompatActivity {
 
           }
       });
-
-     /* Call<ResponseModel> call = moviesApiService.getPopularMovies("eb37bafc5fe27ad9ab86a74e72812c06");
-
-      call.enqueue(new Callback<ResponseModel>() {
-          @Override
-          public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-              movieDao.insertOrReplaceInTx(response.body().getResults());
-
-              List<Movie> responseDB = movieDao.loadAll();
-              List<Movie> responseApi = response.body().getResults();
-
-              movieAdapter.setMovieList(responseApi);
-          }
-
-          @Override
-          public void onFailure(Call<ResponseModel> call, Throwable t) {
-
-          }
-      });*/
 
     }}

@@ -51,7 +51,7 @@ public class MovieAdapter    extends RecyclerView.Adapter<MovieViewHolder> {
     public void onBindViewHolder(MovieViewHolder holder, int position) {
         Movie movie = mMovieList.get(position);
         Picasso.with(mContext)
-                .load(movie.getPoster())
+                .load("http://image.tmdb.org/t/p/w500" + movie.getPoster())
                 .placeholder(R.color.colorAccent)
                 .into(holder.imageView);
     }
