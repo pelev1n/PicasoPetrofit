@@ -45,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void setAdapter() {
+        List<Movie> movies = movieDao.loadAll();
+
+        movieAdapter = new MovieAdapter(this);
+        movieAdapter.setMovieList(movies);
+        recyclerView.setAdapter(movieAdapter);
+    }
+
   private    void  getMovie(){
 //    RestAdapter restAdapter = new RestAdapter.Builder()
 //            .setEndpoint("http://api.themoviedb.org/3")
@@ -81,14 +89,8 @@ public class MainActivity extends AppCompatActivity {
       call.enqueue(new Callback<ResponseModel>() {
           @Override
           public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-              List<Movie> movies = response.body().getResults();
-              movieAdapter.setMovieList(response.body().getResults());
-
               movieDao.insertOrReplaceInTx(response.body().getResults());
-              List<Movie> moviesDao = movieDao.loadAll();
-
-              /*List<Movie> moviesApi = response.body().getResults();*/
-              movieAdapter.setMovieList(moviesDao);
+              setAdapter();
           }
 
           @Override
