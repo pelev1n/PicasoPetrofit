@@ -46,7 +46,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     .load("http://image.tmdb.org/t/p/w500" + mMovie.getPoster())
                     .into(poster);
             Picasso.with(this)
-                    .load("http://image.tmdb.org/t/p/w500" + mMovie.getBackdrop())
+                    .load("http://imagorg/t/e.tmdb.p/w500" + mMovie.getBackdrop())
                     .into(backdrop);
         }
     }
